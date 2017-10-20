@@ -7,13 +7,15 @@ require_once 'Buisness/Adress.cls.php';
 
 <?php 
     if(isset($_POST["id"])){
-    $member = new Member();
+    //member needs adress
     $adress = new Adress();
     $adress->setAdd_adress($_POST["adress"]);
     $adress->setAdd_city($_POST["city"]);
     $adress->setAdd_state($_POST["state"]);
-    $adress-
+    $adress->setPk_add_zip($_POST["zip"]);
+    $adress->create($connectionId);
     
+    $member = new Member();
     $member->setPk_mem_id($_POST["id"]);
     $member->setMem_phone($_POST["phone"]);
     $member->setMem_password($_POST["password"]);
@@ -21,8 +23,10 @@ require_once 'Buisness/Adress.cls.php';
     $member->setMem_email($_POST["email"]);
     $member->setFk_memType_id($_POST["type"]);
     $member->setFk_add_zip($adress->getPk_add_zip());
-    
     $member->create($connectionId);
-    //commit 
+    
     }
 ?>
+
+<form method="post">
+</form>
