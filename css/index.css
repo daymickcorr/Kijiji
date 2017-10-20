@@ -1,0 +1,44 @@
+#menu{
+	height: 100px;
+	width: 100%;
+	background-color: orange;
+}
+
+#payedAds{
+	height: 150px;
+	width: 100%;
+	background-color: red;
+	display: block;
+	overflow-x: auto;
+	overflow-y: hidden;
+}
+
+#search{
+	height: 100px;
+	width: 100%;
+	background-color: green;
+}
+
+.pAds{
+	height: 150px;
+	width: 100px;
+	max-width: none;
+	float: left;
+	display: inline-block;
+	margin-left: 5px;
+	background-color: white;
+	
+}
+
+.category{
+	width: 200px;
+	max-width: none;
+	float: left;
+	display: inline-block;
+	margin-left: 5px;
+	background-color: white;
+}
+
+.subCategory{
+	
+}
