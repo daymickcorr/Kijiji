@@ -23,5 +23,6 @@ require_once 'Buisness/Adress.cls.php';
     $member->setFk_add_zip($adress->getPk_add_zip());
     
     $member->create($connectionId);
+    //commit before push 
     }
 ?>
