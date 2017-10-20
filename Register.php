@@ -1,7 +1,7 @@
 <?php
 require_once 'Buisness/dbconfig.php';
 require_once 'Buisness/Member.cls.php';
-require_once 'Buisness/memeberType_test.php';
+require_once 'Buisness/MemeberType.cls.php';
 require_once 'Buisness/Adress.cls.php';
 ?>
 
@@ -29,4 +29,23 @@ require_once 'Buisness/Adress.cls.php';
 ?>
 
 <form method="post">
+	<table>
+		<tr>
+			<td>
+				Id:
+			</td>
+			<td>
+				<input type="text" name="id"/>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				Phone:
+			</td>
+			<td>
+				<input type="text" name="phone"/>
+			</td>
+		</tr>
+		
+	</table>
 </form>
