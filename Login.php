@@ -39,6 +39,8 @@ try{
         $member->setMem_email($_POST["email"]);
         $member->setMem_password($_POST["password"]);
         $authMember = $member->authentificate($connectionId);
+        $_SESSION["id"] = $authMember->getPk_mem_id();
+        echo $_SESSION["id"];
         /*
         echo "<hr/>";
         echo $member->header();
@@ -113,7 +115,7 @@ function validate(){
 <body>
 <form method="post">
 <table name="Login" border="1">
-	<tr><td>User Name : </td><td><input type="email" required="required" name="email"></td></tr>
+	<tr><td>Email : </td><td><input type="email" required="required" name="email"></td></tr>
 	<tr><td>Password : </td><td><input id="pass" type="Password" required="required" name="password"></td></tr>
 	<tr><td>Confirmation : </td><td><input id="passConf" type="Password" required="required"></td></tr>
 </table>
