@@ -23,5 +23,10 @@ require_once 'Buisness/Adress.cls.php';
     $member->setFk_add_zip($adress->getPk_add_zip());
     
     $member->create($connectionId);
+    //eduard test 
+    // that's it?
+    //yes dont forget to push your updates
+    // I switch off
+    // after we separate the job
     }
 ?>
