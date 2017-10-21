@@ -87,15 +87,15 @@ public function getPk_mem_id()
     }
 
     function create($connectionId){
-        $pk_mem_id = $this->pk_mem_id;
+        //$pk_mem_id = $this->pk_mem_id;
         $mem_name = $this->mem_name;
         $mem_phone = $this->mem_phone;
         $mem_email = $this->mem_email;
         $mem_password = $this->mem_password;
         $fk_memType_id = $this->fk_memType_id;
         $fk_add_zip = $this->fk_add_zip;
-        $sqlStmt = "INSERT INTO member 
-       VALUES ('$pk_mem_id','$mem_name','$mem_phone','$mem_email','$mem_password','$fk_memType_id','$fk_add_zip')";
+        $sqlStmt = "INSERT INTO member (`mem_name`, `mem_phone`, `mem_email`, `mem_password`, `fk_memType_id`, `fk_add_zip`)
+       VALUES ('$mem_name','$mem_phone','$mem_email','$mem_password','$fk_memType_id','$fk_add_zip')";
         $result = $connectionId->exec($sqlStmt);
         return $result;
     }
