@@ -63,9 +63,49 @@ if(isset($_GET["interfaceLanguage"])){
 </div>
 
 <br/>
-
+<?php //////////////////////////////////Search part///////////////////////////////////  ?>
 <div id="search">
+Search
+<form action="Results.php" method="get">
 
+<div >Enter minimum price:
+<input type="text" name = "min_price_search" >  </input></div >
+<div >Enter maximum price:
+<input type="text" name = "max_price_search" >  </input></div>
+
+	<table>
+	<tr><td colspan="2">Choose search option</td></tr>
+        <tr>
+            <td>Search by Add ID:</td>
+            <td>
+                <?php 
+                    $AdId = new Ad();
+                    echo "<select name = 'cboSearchAdId'>";
+                    foreach ($AdId->getAdIds($connectionId) as $element) {
+                        echo "<option value= '" . $element . "'>$element</option>";
+                    }
+                    echo "</select>";
+                ?>
+    		</td>
+    		<td><input type="submit" name="btnGoAddId" value="Go"/></td>
+    		 </tr>
+    		 <tr>
+    		 <td>Search by Subcat ID:</td>
+    		 
+            <td>
+                <?php 
+                    $scId = new Ad();
+                    echo "<select name = 'cboSearchSubcatId'>";
+                    foreach ($scId->getSubcatIds($connectionId) as $element) {
+                        echo "<option value= '" . $element . "'>$element</option>";
+                    }
+                    echo "</select>";
+                ?>
+    		</td>
+    		<td><input type="submit" name="btnGoSubcatId" value="Go"/></td>
+		</tr>		
+	</table>
+</form>
 </div>
 
 <br/>

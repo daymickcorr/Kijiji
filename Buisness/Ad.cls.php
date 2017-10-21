@@ -11,8 +11,31 @@ class Ad
     private $fk_mem_id;
     private $images = [];
     private $language;
+    private $ad_price;
+    private $ad_title;
     
-/**
+    
+    public function getAd_price()
+    {
+        return $this->ad_price;
+    }
+
+    public function getAd_tit()
+    {
+        return $this->ad_tit;
+    }
+
+    public function setAd_price($ad_price)
+    {
+        $this->ad_price = $ad_price;
+    }
+
+    public function setAd_tit($ad_tit)
+    {
+        $this->ad_tit = $ad_tit;
+    }
+
+    /**
      * @return the $language
      */
     public function getLanguage()
@@ -45,7 +68,7 @@ class Ad
     }
 
 function __construct($pk_ad_id=null,$ad_description=null,$ad_reg_date=null,
-    $ad_exp_date=null,$fk_pay_id=null,$fk_subCat_id=null,$fk_mem_id=null){
+    $ad_exp_date=null,$fk_pay_id=null,$fk_subCat_id=null, $fk_mem_id=null, $ad_price=null, $ad_title=null){
     $this->pk_ad_id=$pk_ad_id;
     $this->ad_description=$ad_description;
     $this->ad_reg_date=$ad_reg_date;
@@ -53,6 +76,8 @@ function __construct($pk_ad_id=null,$ad_description=null,$ad_reg_date=null,
     $this->fk_pay_id=$fk_pay_id;
     $this->fk_subCat_id=$fk_subCat_id;
     $this->fk_mem_id=$fk_mem_id;
+    $this->ad_price=$ad_price;
+    $this->ad_title=$ad_title;
 }
 public function getPk_ad_id()
     {
@@ -112,14 +137,14 @@ public function getPk_ad_id()
     }
     static function header(){
         $str= "<table border='1'><tr>";
-        $str="$str<th>pk_ad_id </th><th>ad_description </th><th>ad_reg_date </th><th>ad_exp_date </th><th>fk_pay_id </th><th>fk_subCat_id </th><th>fk_mem_id </th></tr>";
+        $str="$str<th>pk_ad_id </th><th>ad_description </th><th>ad_reg_date </th><th>Expiration date </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
         return $str;
     }
     static function footer(){
         return "</table>";
     }
     function __toString(){
-        return "<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->fk_mem_id</td></tr>";
+        return "<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
     }
 
     function create($connectionId){
@@ -130,7 +155,9 @@ public function getPk_ad_id()
         $fk_pay_id = $this->fk_pay_id;
         $fk_subCat_id = $this->fk_subCat_id;
         $fk_mem_id = $this->fk_mem_id;
-        $sqlStmt = "INSERT INTO ad VALUES ('$pk_ad_id','$ad_description','$ad_reg_date','$ad_exp_date','$fk_pay_id','$fk_subCat_id','$fk_mem_id')";
+        $ad_price = $this->ad_price;
+        $ad_title = $this->ad_title;
+        $sqlStmt = "INSERT INTO ad VALUES ('$pk_ad_id','$ad_description','$ad_reg_date','$ad_exp_date','$fk_pay_id','$fk_subCat_id','$fk_mem_id','$ad_price','$ad_title')";
         $result = $connectionId->exec($sqlStmt);
         return $result;
     }
@@ -142,21 +169,23 @@ public function getPk_ad_id()
         $fk_pay_id = $this->fk_pay_id;
         $fk_subCat_id = $this->fk_subCat_id;
         $fk_mem_id = $this->fk_mem_id;
+        $ad_price = $this->ad_price;
+        $ad_title = $this->ad_title;
         $sqlStmt = "UPDATE ad
-        SET ad_description=('$ad_description'),ad_reg_date=('$ad_reg_date'),ad_exp_date=('$ad_exp_date'),fk_pay_id=('$fk_pay_id'),fk_subCat_id=('$fk_subCat_id'),fk_mem_id=('$fk_mem_id')
+        SET ad_description=('$ad_description'),ad_reg_date=('$ad_reg_date'),ad_exp_date=('$ad_exp_date'),fk_pay_id=('$fk_pay_id'),fk_subCat_id=('$fk_subCat_id'),fk_mem_id=('$fk_mem_id'),ad_price=('$ad_price'),ad_title=('$ad_title')
         WHERE pk_ad_id =('$pk_ad_id')";
         $result = $connectionId->exec($sqlStmt);
         return $result;
     }
+  
     function delete($connectionId){
         $pk_ad_id = $this->pk_ad_id;
         $sqlStmt = "DELETE FROM ad WHERE pk_ad_id=('$pk_ad_id')";
         $result = $connectionId->exec($sqlStmt);
         return $result;
     }
- 
+  
     function find($connectionId){
-        //will return only last found
         //suposed to be unique
         $pk_ad_id = $this->pk_ad_id;
         $sqlStmt = "SELECT * FROM ad WHERE pk_ad_id=$pk_ad_id";
@@ -170,10 +199,71 @@ public function getPk_ad_id()
             $temp->fk_pay_id = $row["fk_pay_id"];
             $temp->fk_subCat_id = $row["fk_subCat_id"];
             $temp->pk_ad_id = $row["pk_ad_id"];
+            $temp->ad_price = $row["ad_price"];
+            $temp->ad_title = $row["ad_title"];
         }
         return $temp;
     }
-    
+    //  find by subcategory subCat_id
+    function find_subcat($connectionId){
+        //suposed to be unique
+        $fk_subCat_id = $this->fk_subCat_id;
+        $sqlStmt = "SELECT * FROM ad WHERE fk_subCat_id=$fk_subCat_id";
+        $result = $connectionId->query($sqlStmt);
+        $temp  = new Ad();
+        foreach ($result as $row){
+            $temp->ad_description = $row["ad_description"];
+            $temp->ad_exp_date = $row["ad_exp_date"];
+            $temp->ad_reg_date = $row["ad_reg_date"];
+            $temp->fk_mem_id = $row["fk_mem_id"];
+            $temp->fk_pay_id = $row["fk_pay_id"];
+            $temp->fk_subCat_id = $row["fk_subCat_id"];
+            $temp->pk_ad_id = $row["pk_ad_id"];
+            $temp->ad_price = $row["ad_price"];
+            $temp->ad_title = $row["ad_title"];
+        }
+        return $temp;
+    }
+    function min_Price($connectionId){
+        //will return only last found, need a range
+        //suposed to be unique
+        $ad_price = $this->ad_price;
+        $sqlStmt = "SELECT * FROM ad WHERE ad_price>=$ad_price";
+        $result = $connectionId->query($sqlStmt);
+        $temp  = new Ad();
+        foreach ($result as $row){
+            $temp->ad_description = $row["ad_description"];
+            $temp->ad_exp_date = $row["ad_exp_date"];
+            $temp->ad_reg_date = $row["ad_reg_date"];
+            $temp->fk_mem_id = $row["fk_mem_id"];
+            $temp->fk_pay_id = $row["fk_pay_id"];
+            $temp->fk_subCat_id = $row["fk_subCat_id"];
+            $temp->pk_ad_id = $row["pk_ad_id"];
+            $temp->ad_price = $row["ad_price"];
+            $temp->ad_title = $row["ad_title"];
+        }
+        return $temp;
+    }
+    function max_Price($connectionId){
+        //will return only last found, need a range
+        //suposed to be unique
+        $ad_price = $this->ad_price;
+        $sqlStmt = "SELECT * FROM ad WHERE ad_price<=$ad_price";
+        $result = $connectionId->query($sqlStmt);
+        $temp  = new Ad();
+        foreach ($result as $row){
+            $temp->ad_description = $row["ad_description"];
+            $temp->ad_exp_date = $row["ad_exp_date"];
+            $temp->ad_reg_date = $row["ad_reg_date"];
+            $temp->fk_mem_id = $row["fk_mem_id"];
+            $temp->fk_pay_id = $row["fk_pay_id"];
+            $temp->fk_subCat_id = $row["fk_subCat_id"];
+            $temp->pk_ad_id = $row["pk_ad_id"];
+            $temp->ad_price = $row["ad_price"];
+            $temp->ad_title = $row["ad_title"];
+        }
+        return $temp;
+    }
     function getPayedAds($connectionId){
         //shows only 1 image
         $idx=0;
@@ -192,6 +282,24 @@ public function getPk_ad_id()
             $arr[$idx++] = $temp;
         }
         return $arr;
+    }
+    // get Add ID
+    function getAdIds($connectionId) {
+        $idx = 0;
+        $sqlStmt = "SELECT pk_ad_id FROM ad ORDER BY pk_ad_id";
+        foreach ($connectionId->query($sqlStmt) as $oneRec) {
+            $arrAdId[$idx++] = $oneRec["pk_ad_id"];
+        }
+        return $arrAdId;
+    }
+    // get Subcat ID
+    function getSubcatIds($connectionId) {
+        $idx = 0;
+        $sqlStmt = "SELECT fk_subCat_id FROM ad ORDER BY fk_subCat_id";
+        foreach ($connectionId->query($sqlStmt) as $oneRec) {
+            $arrSCId[$idx++] = $oneRec["fk_subCat_id"];
+        }
+        return $arrSCId;
     }
     
 }
