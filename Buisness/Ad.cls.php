@@ -143,8 +143,10 @@ public function getPk_ad_id()
     static function footer(){
         return "</table>";
     }
+    public $res = "";
     function __toString(){
-        return "<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
+        
+        $res+= "<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
     }
 
     function create($connectionId){
