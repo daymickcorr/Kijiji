@@ -1,5 +1,5 @@
 <?php
-
+require_once 'Buisness/Subcategory.cls.php';
 class Ad
 {
     private $pk_ad_id;
@@ -13,7 +13,7 @@ class Ad
     private $language;
     private $ad_price;
     private $ad_title;
-    
+    private $res;
     
     public function getAd_price()
     {
@@ -143,10 +143,10 @@ public function getPk_ad_id()
     static function footer(){
         return "</table>";
     }
-    public $res = "";
+   
     function __toString(){
-        
-        $res+= "<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
+        $res="<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
+    return $res;
     }
 
     function create($connectionId){
@@ -187,7 +187,7 @@ public function getPk_ad_id()
         return $result;
     }
   
-    function find($connectionId){
+    function find($connectionId){  // find subcat ID, first function
         //suposed to be unique
         $pk_ad_id = $this->pk_ad_id;
         $sqlStmt = "SELECT * FROM ad WHERE pk_ad_id=$pk_ad_id";
@@ -207,7 +207,41 @@ public function getPk_ad_id()
         return $temp;
     }
     //  find by subcategory subCat_id
-    function find_subcat($connectionId){
+/*      function getSubcID($connectionId)
+    {
+        $subCat_description = $this->subCat_description;
+        $sqlStmt = "SELECT pk_subCat_id FROM subcategory where subCat_description ='$subCat_description'";
+        $result = $connectionId->query($sqlStmt);
+        $temp  = new Subcategory();
+        foreach ($result as $row) {
+            $temp->pk_subCat_id = $row["pk_subCat_id"];
+            $arr[$idx++] = $temp;
+            //$SCId[$idx++] = $oneRec["pk_subCat_id"];
+        }
+        return $arr;
+    }
+    }*/
+    function find_subcatID($connectionId){  // train
+        $idx=0;
+        $fk_subCat_id = $this->fk_subCat_id;
+        foreach ($connectionId->query("SELECT * FROM ad, subcategory WHERE fk_subCat_id=$fk_subCat_id and ad.fk_SubCat_Id=".
+            " subcategory.pk_SubCat_Id")
+             as $row){
+            $temp = new Ad();
+            $temp->ad_description = $row["ad_description"];
+            $temp->ad_exp_date = $row["ad_exp_date"];
+            $temp->ad_reg_date = $row["ad_reg_date"];
+            $temp->fk_mem_id = $row["fk_mem_id"];
+            $temp->fk_pay_id = $row["fk_pay_id"];
+            $temp->fk_subCat_id = $row["fk_subCat_id"];
+            $temp->pk_ad_id = $row["pk_ad_id"];
+            $temp->ad_price = $row["ad_price"];
+            $temp->ad_title = $row["ad_title"];
+            $arr[$idx++] = $temp;
+        }
+        return $arr;
+    }
+    function find_subcat($connectionId){  // find by subcat ID
         //suposed to be unique
         $fk_subCat_id = $this->fk_subCat_id;
         $sqlStmt = "SELECT * FROM ad WHERE fk_subCat_id=$fk_subCat_id";
@@ -226,14 +260,13 @@ public function getPk_ad_id()
         }
         return $temp;
     }
+   
+    
     function min_Price($connectionId){
-        //will return only last found, need a range
-        //suposed to be unique
+        $idx=0;
         $ad_price = $this->ad_price;
-        $sqlStmt = "SELECT * FROM ad WHERE ad_price>=$ad_price";
-        $result = $connectionId->query($sqlStmt);
-        $temp  = new Ad();
-        foreach ($result as $row){
+        foreach ($connectionId->query("SELECT * FROM ad WHERE ad_price>=$ad_price") as $row){
+            $temp = new Ad();
             $temp->ad_description = $row["ad_description"];
             $temp->ad_exp_date = $row["ad_exp_date"];
             $temp->ad_reg_date = $row["ad_reg_date"];
@@ -243,17 +276,15 @@ public function getPk_ad_id()
             $temp->pk_ad_id = $row["pk_ad_id"];
             $temp->ad_price = $row["ad_price"];
             $temp->ad_title = $row["ad_title"];
+            $arr[$idx++] = $temp;
         }
-        return $temp;
+        return $arr;
     }
     function max_Price($connectionId){
-        //will return only last found, need a range
-        //suposed to be unique
+        $idx=0;
         $ad_price = $this->ad_price;
-        $sqlStmt = "SELECT * FROM ad WHERE ad_price<=$ad_price";
-        $result = $connectionId->query($sqlStmt);
-        $temp  = new Ad();
-        foreach ($result as $row){
+        foreach ($connectionId->query("SELECT * FROM ad WHERE ad_price<=$ad_price") as $row){
+            $temp = new Ad();
             $temp->ad_description = $row["ad_description"];
             $temp->ad_exp_date = $row["ad_exp_date"];
             $temp->ad_reg_date = $row["ad_reg_date"];
@@ -263,8 +294,9 @@ public function getPk_ad_id()
             $temp->pk_ad_id = $row["pk_ad_id"];
             $temp->ad_price = $row["ad_price"];
             $temp->ad_title = $row["ad_title"];
+            $arr[$idx++] = $temp;
         }
-        return $temp;
+        return $arr;
     }
     function getPayedAds($connectionId){
         //shows only 1 image

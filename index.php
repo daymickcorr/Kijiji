@@ -12,7 +12,6 @@ if(isset($_GET["interfaceLanguage"])){
 }
 
 
-
 ?>
 
 <head>
@@ -103,10 +102,28 @@ Search
                 ?>
     		</td>
     		<td><input type="submit" name="btnGoSubcatId" value="Go"/></td>
+    		</tr>
+    		 <tr>
+    		  <td>Search by Subcategory Name:</td>
+    		 <td>
+                <?php 
+                    $sc = new Subcategory();
+                    echo "<select name = 'cboSearchSubcatDesc'>";
+                    foreach ($sc->getSubcatDesc($connectionId) as $element) {
+                        echo "<option value= '" . $element . "'>$element</option>";
+                    }
+                    echo "</select>";
+                ?>
+    		</td>
+    		<td><input type="submit" name="btnGoSubcatDesc" value="Go"/></td>
 		</tr>		
 	</table>
 </form>
 </div>
+
+
+
+
 
 <br/>
 

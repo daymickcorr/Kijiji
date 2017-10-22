@@ -1,12 +1,13 @@
 <?php // -----------------find
 require_once 'Buisness/dbconfig.php';
 require_once 'Buisness/Ad.cls.php';
-
+require_once 'Buisness/Subcategory.cls.php';
 
 $min_price = $_GET["min_price_search"];
 $max_price = $_GET["max_price_search"];
 $adId = $_GET["cboSearchAdId"];
 $subcatId = $_GET["cboSearchSubcatId"];
+$subcatDesc = $_GET["cboSearchSubcatDesc"];
 
 try{
     $connectionId = new PDO("mysql:host=$hostname;dbname=$dbname",$username,$password);
@@ -24,54 +25,91 @@ echo Ad::footer();
 }
 else if (isset($_GET["btnGoSubcatId"]))
 {
-///  Subcategory
-$t2 = new Ad(1,"","","","",$subcatId);
-$isFound =$t2->find_subcat($connectionId);
-echo "The Ad with the Subcategory: ".$t2->getFk_subCat_id().
-" is found successfully <br />";
-echo Ad::header();
-echo $isFound;
-echo Ad::footer();
-}
-
-{
-    if ($min_price!=""&&$max_price!="")
-    {  $t3 = new Ad("","","","","","","",$min_price);
-    $t4 = new Ad("","","","","","","",$max_price);
-    $isFound =$t3->min_Price($connectionId);
-    $isFound =$t4->max_Price($connectionId);
-    echo "The Ad with price >: ".$t3->getAd_price()."and <: ".$t4->getAd_price().
-    " is found successfully <br />";
-    echo Ad::header();
-    echo $isFound;
-    echo Ad::footer();}
-    
-    else if ($min_price!=""&&$max_price=="")
-    {
-    $t3 = new Ad("","","","","","","",$min_price);
-    $isFound =$t3->min_Price($connectionId);
-    echo "The Ad with price >: ".$t3->getAd_price().
+    /////////  Subcat ID
+    $t1 = new Ad(1,"","","","",$subcatId);
+    $isFound =$t1->find_subcat($connectionId);
+    echo "The Ad with the id: ".$t1->getFk_subCat_id().
     " is found successfully <br />";
     echo Ad::header();
     echo $isFound;
     echo Ad::footer();
-    }
-    else if ($min_price==""&&$max_price!=""){
+}
+else if (isset($_GET["btnGoSubcatDesc"]))
+{
+/////////////////////////  Subcategory //////////////////////
+    $t1 = new Subcategory(1,$subcatDesc);
+    $subcatId = $t1->getSubcID($connectionId);
+    $t2 = new Ad(1,"","","","",$subcatID);
+   // echo "The Ad in the Subcategory: ".$subcatId.", ".$subcatDesc.", is found successfully <br />";
+    $isFound =$t2->find_subcatId($connectionId);
 
-        $t3 = new Ad("","","","","","","",$max_price);
-        $isFound =$t3->max_Price($connectionId);
-        echo "The Ad with price <: ".$t3->getAd_price().
-        " is found successfully <br />";
-        echo Ad::header();
-        echo $isFound;
-        echo Ad::footer();
+    echo Ad::header();
+    {
+        if($element->getAdIds($connectionId)!=NULL)
+        {
+            /////////// display multiple ///////////
+            echo $element;
+        }
+    }
+    echo Ad::footer();
+}
+/////////////////////////PRICE/////////////////////////////////////////
+{
+    if ($min_price!=""&&$max_price!="")
+    {  $t3 = new Ad("","","","","","","",$min_price);
+    $t4 = new Ad("","","","","","","",$max_price);
+    echo "The Ad with price more ".$t3->getAd_price()." and less ".$t4->getAd_price().
+    " is found successfully <br />";
+    $ads = $t3->min_Price($connectionId);
+    $ads = $t4->max_Price($connectionId);
+    echo Ad::header();
+    foreach ($ads as $element)
+    {
+      if($element->getAdIds($connectionId)!=NULL)
+       {
+/////////// display multiple ///////////
+    echo $element;
+    } 
+  }
+    echo Ad::footer();
+    }
+    
+    else if ($min_price!=""&&$max_price=="")
+    { $t3 = new Ad("","","","","","","",$min_price);
+    $ads = $t3->min_Price($connectionId);
+    echo "The Ad with price >: ".$t3->getAd_price().
+    " is found successfully <br />";
+    echo Ad::header();
+    foreach ($ads as $element)
+    {
+        if($element->getAdIds($connectionId)!=NULL)
+        {
+            /////////// display multiple ///////////
+            echo $element;
+        }
+    }
+    echo Ad::footer();
+    }
+    
+    else if ($min_price==""&&$max_price!="")
+    { $t3 = new Ad("","","","","","","",$max_price);
+    $ads = $t3->max_Price($connectionId);
+    echo "The Ad with price <: ".$t3->getAd_price().
+    " is found successfully <br />";
+    echo Ad::header();
+    foreach ($ads as $element)
+    {
+        if($element->getAdIds($connectionId)!=NULL)
+        {
+            /////////// display multiple ///////////
+            echo $element;
+        }
+    }
+    echo Ad::footer();
     }
     else {    }
 }
 }
-
-/*($pk_ad_id=null,$ad_description=null,$ad_reg_date=null,
-    $ad_exp_date=null,$fk_pay_id=null,$fk_subCat_id=null,$fk_mem_id=null)*/
 catch (SQLException $exception){
     echo "Error, you are not connected <br />";
 }

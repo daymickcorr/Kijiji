@@ -95,5 +95,47 @@ public function getPk_subCat_id()
         }
         return $arr;
     }
+    // get Subcat Desc
+    function getSubcatDesc($connectionId) {
+        $idx = 0;
+        $sqlStmt = "SELECT distinct subCat_description FROM subcategory ORDER BY subCat_description";
+        foreach ($connectionId->query($sqlStmt) as $oneRec) {
+            $arrSCId[$idx++] = $oneRec["subCat_description"];
+        }
+        return $arrSCId;
+    }
+    function getSubcID($connectionId)
+    {
+        $idx = 0;
+        $subCat_description = $this->subCat_description;
+        $sqlStmt = "SELECT pk_subCat_id FROM subcategory where subCat_description ='$subCat_description'";
+        foreach ($connectionId->query($sqlStmt) as $oneRec) {
+            $temp = new Subcategory();
+            $temp->pk_subCat_id = $oneRec["pk_subCat_id"];
+            $arr[$idx++] = $temp;
+            //$SCId[$idx++] = $oneRec["pk_subCat_id"];
+        }
+        return $arr;
+    }
+    /*   function find_subcat($connectionId){
+        //suposed to be unique
+        $fk_subCat_id = $this->fk_subCat_id;
+        $sqlStmt = "SELECT * FROM ad WHERE fk_subCat_id=$fk_subCat_id";
+        $result = $connectionId->query($sqlStmt);
+        $temp  = new Ad();
+        foreach ($result as $row){
+            $temp->ad_description = $row["ad_description"];
+            $temp->ad_exp_date = $row["ad_exp_date"];
+            $temp->ad_reg_date = $row["ad_reg_date"];
+            $temp->fk_mem_id = $row["fk_mem_id"];
+            $temp->fk_pay_id = $row["fk_pay_id"];
+            $temp->fk_subCat_id = $row["fk_subCat_id"];
+            $temp->pk_ad_id = $row["pk_ad_id"];
+            $temp->ad_price = $row["ad_price"];
+            $temp->ad_title = $row["ad_title"];
+        }
+        return $temp;
+    }
+    }*/
 }
 ?>
