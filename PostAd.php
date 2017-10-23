@@ -9,7 +9,6 @@ else {
     echo "Please login first";
 }
 
-header('Location: CatSelection.php');
 ?>
 
 <table>
