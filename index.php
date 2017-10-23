@@ -1,14 +1,14 @@
 <?php
+session_start();
 require_once 'Buisness/dbconfig.php';
 require_once 'Buisness/Language.cls.php';
 require_once 'Buisness/Ad.cls.php';
 require_once 'Buisness/Category.cls.php';
 require_once 'Buisness/Subcategory.cls.php';
-$interfaceLanguage = "1";
-
+$_SESSION["language"] = $interfaceLanguage = "1";
 
 if(isset($_GET["interfaceLanguage"])){
-    $interfaceLanguage = $_GET["interfaceLanguage"];
+    $_SESSION["language"] = $interfaceLanguage = $_GET["interfaceLanguage"];
 }
 
 
