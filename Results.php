@@ -110,7 +110,7 @@ else if (isset($_GET["btnGoSubcatDesc"]))
     else {    }
 }
 }
-catch (SQLException $exception){
+catch (Exception $exception){
     echo "Error, you are not connected <br />";
 }
 
