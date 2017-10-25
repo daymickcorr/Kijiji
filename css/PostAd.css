@@ -1,0 +1,10 @@
+.payement{
+	float: left;
+	margin-left: 5px;
+	min-width: 150px;
+}
+
+.payement table{
+	width: 100%;
+	text-align:center;
+}

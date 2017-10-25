@@ -34,7 +34,7 @@ if(isset($_GET["interfaceLanguage"])){
 	<br/>
 	<a href="Register.php">Register</a>
 	<a href="Login.php">Login</a>
-	<a href="PostAd.php">Post Ad</a>
+	<a href="CatSelection.php">Post Ad</a>
 	
 	
 </div>
