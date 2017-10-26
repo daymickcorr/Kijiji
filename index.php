@@ -68,9 +68,8 @@ if(isset($_GET["interfaceLanguage"])){
 Search
 <form action="Results.php" method="get">
 
-<div >Enter minimum price:
-<input type="text" name = "min_price_search" >  </input></div >
-<div >Enter maximum price:
+<div > min price:
+<input type="text" name = "min_price_search" >  </input> max price:
 <input type="text" name = "max_price_search" >  </input></div>
 
 	<table>
@@ -105,15 +104,30 @@ Search
     		<td><input type="submit" name="btnGoSubcatId" value="Go"/></td>
     		</tr>
     		 <tr>
-    		  <td>Search by Subcategory Name:</td>
+    		  <td>Search by Keyword:</td>
     		 <td>
+    		 <input type="text" name = "keyword_search" />
                 <?php 
+                
+                $keywords = 'car, toy, sofa';
+                $result = array();
+                $keyword_tokens = explode(',', $keywords);
+                $sql = '';
+                foreach($keyword_tokens as $keyword) {
+                    $keyword = mysqli_real_escape_string(trim($keyword));
+                    if (!empty($sql)) $sql .= " UNION ";
+                    $sql .= "SELECT * FROM ad WHERE ad_description LIKE'%$keyword%'";
+                }
+                
+                
+                /* 
+                    //Search by Subcategory(code): 
                     $sc = new Subcategory();
                     echo "<select name = 'cboSearchSubcatDesc'>";
                     foreach ($sc->getSubcatDesc($connectionId) as $element) {
                         echo "<option value= '" . $element . "'>$element</option>";
                     }
-                    echo "</select>";
+                    echo "</select>";*/
                 ?>
     		</td>
     		<td><input type="submit" name="btnGoSubcatDesc" value="Go"/></td>
