@@ -1,4 +1,4 @@
-<?php // -----------------find
+<?php // -----------------find////////////////////
 require_once 'Buisness/dbconfig.php';
 require_once 'Buisness/Ad.cls.php';
 require_once 'Buisness/Subcategory.cls.php';
@@ -9,12 +9,10 @@ $adId = $_GET["cboSearchAdId"];
 $subcatId = $_GET["cboSearchSubcatId"];
 $subcatDesc = $_GET["cboSearchSubcatDesc"];
 
-try{
-    $connectionId = new PDO("mysql:host=$hostname;dbname=$dbname",$username,$password);
-    echo "You are connected to $dbname <br />";
+
 if (isset($_GET["btnGoAddId"]))
 {
-   ///  ID 
+   /////////////////  ID ////////////////////
     $t1 = new Ad($adId);
 $isFound =$t1->find($connectionId);
 echo "The Ad with the id: ".$t1->getPk_ad_id().
@@ -25,7 +23,7 @@ echo Ad::footer();
 }
 else if (isset($_GET["btnGoSubcatId"]))
 {
-    /////////  Subcat ID
+ ////////////////////////  Subcat ID ////////////////////
     $t1 = new Ad(1,"","","","",$subcatId);
     $isFound =$t1->find_subcat($connectionId);
     echo "The Ad with the id: ".$t1->getFk_subCat_id().
@@ -109,9 +107,6 @@ else if (isset($_GET["btnGoSubcatDesc"]))
     }
     else {    }
 }
-}
-catch (Exception $exception){
-    echo "Error, you are not connected <br />";
-}
+
 
 ?>
