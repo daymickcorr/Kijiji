@@ -117,6 +117,8 @@ public function getPk_subCat_id()
         }
         return $arr;
     }
+    
+    
     /*   function find_subcat($connectionId){
         //suposed to be unique
         $fk_subCat_id = $this->fk_subCat_id;

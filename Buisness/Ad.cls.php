@@ -336,5 +336,24 @@ public function getPk_ad_id()
         return $arrSCId;
     }
     
+    ////////////////////////////search by keyword//////////////////////////////////////
+    function search_keyword($connectionId)
+    {
+        //$keywords = 'car';
+        $keywords = 'car, toy';
+        $idx = 0;  ///
+        $result = array();
+        $keyword_tokens = explode(',', $keywords);
+        $sql = '';
+        foreach($keyword_tokens as $keyword) {
+            $keyword = mysqli_real_escape_string(trim($keyword));
+            if (!empty($sql)) $sql .= " UNION ";
+            $sql .= "SELECT * FROM ad WHERE ad_description LIKE'%$keyword%'";
+            foreach ($connectionId->query($sql) as $oneRec) {///
+                $arrKey[$idx++] = $oneRec["ad_description"];///
+            }///
+            return $arrKey;///
+        }
+    }
 }
 ?>

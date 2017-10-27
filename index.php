@@ -106,19 +106,8 @@ Search
     		 <tr>
     		  <td>Search by Keyword:</td>
     		 <td>
-    		 <input type="text" name = "keyword_search" />
+    		 <input type="text" name = "txtKeywordSearch" />
                 <?php 
-                
-                $keywords = 'car, toy, sofa';
-                $result = array();
-                $keyword_tokens = explode(',', $keywords);
-                $sql = '';
-                foreach($keyword_tokens as $keyword) {
-                    $keyword = mysqli_real_escape_string(trim($keyword));
-                    if (!empty($sql)) $sql .= " UNION ";
-                    $sql .= "SELECT * FROM ad WHERE ad_description LIKE'%$keyword%'";
-                }
-                
                 
                 /* 
                     //Search by Subcategory(code): 
@@ -127,10 +116,12 @@ Search
                     foreach ($sc->getSubcatDesc($connectionId) as $element) {
                         echo "<option value= '" . $element . "'>$element</option>";
                     }
-                    echo "</select>";*/
+                    echo "</select>";
+                    <input type="submit" name="btnGoSubcatDesc" value="Go"/>
+                    */
                 ?>
     		</td>
-    		<td><input type="submit" name="btnGoSubcatDesc" value="Go"/></td>
+    		<td><input type="submit" name="btnSearchKey" value="Go"/></td>
 		</tr>		
 	</table>
 </form>
