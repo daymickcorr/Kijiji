@@ -269,7 +269,8 @@ public function getPk_ad_id()
         //$keywords = 'car, toy';
         $idx = 0;  ///
         $result = array();
-        $keyword_tokens = explode(',', $keywords);
+        $keyword_tokens = explode(' ', $keywords);
+        //$keyword_tokens = explode(',', $keywords);
         $sql = '';
         if (count($keyword_tokens) ==1)
         foreach($keyword_tokens as $keyword) {
