@@ -265,7 +265,7 @@ public function getPk_ad_id()
     function search_keyword($connectionId)  // copied to ad
     {
         $keywords = $this->ad_description;
-        echo $keywords.",Test";
+       // echo $keywords.",Test";
         //$keywords = 'car, toy';
         $idx = 0;  ///
         $result = array();
@@ -282,14 +282,8 @@ public function getPk_ad_id()
             }
             $sql=  substr_replace($sql, "", -2); 
         }
-        else if (count($keyword_tokens) >=2){
-            foreach($keyword_tokens as $keyword) {
-                $sql.= " ad_description LIKE'%".(trim($keyword))."%' OR";
-                
-            }
-            $sql=  substr_replace($sql, "", -2);
-        }
-        echo $sql."\n";
+        else 
+        { echo "Nothing is found, please try again";}
         $sql = "SELECT * FROM ad WHERE $sql";
         foreach ($connectionId->query($sql) as $row) {///
             $temp = new Ad();
