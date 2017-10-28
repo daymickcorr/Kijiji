@@ -67,8 +67,8 @@ if(isset($_GET["interfaceLanguage"])){
 <div id="search">
 Search
 <form action="Results.php" method="get">
-
-<div > min price:
+<?php 
+/*<div > min price:
 <input type="text" name = "min_price_search" >  </input> max price:
 <input type="text" name = "max_price_search" >  </input></div>
 
@@ -103,6 +103,7 @@ Search
     		</td>
     		<td><input type="submit" name="btnGoSubcatId" value="Go"/></td>
     		</tr>
+    		*/  ?>
     		 <tr>
     		  <td>Search by Keyword:</td>
     		 <td>
@@ -119,7 +120,7 @@ Search
                     echo "</select>";
                     <input type="submit" name="btnGoSubcatDesc" value="Go"/>
                     */
-                ?>
+                 ?>
     		</td>
     		<td><input type="submit" name="btnSearchKey" value="Go"/></td>
 		</tr>		
