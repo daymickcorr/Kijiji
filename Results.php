@@ -3,14 +3,14 @@ require_once 'Buisness/dbconfig.php';
 require_once 'Buisness/Ad.cls.php';
 require_once 'Buisness/Subcategory.cls.php';
 
-$min_price = $_GET["min_price_search"];
+/*$min_price = $_GET["min_price_search"];
 $max_price = $_GET["max_price_search"];
 $adId = $_GET["cboSearchAdId"];
-$subcatId = $_GET["cboSearchSubcatId"];
+$subcatId = $_GET["cboSearchSubcatId"];*/
 $addDesc = $_GET["txtKeywordSearch"];
 
 
-if (isset($_GET["btnGoAddId"]))
+/*if (isset($_GET["btnGoAddId"]))
 {
    /////////////////  ID ////////////////////
     $t1 = new Ad($adId);
@@ -32,22 +32,23 @@ else if (isset($_GET["btnGoSubcatId"]))
     echo $isFound;
     echo Ad::footer();
 }
-else if (isset($_GET["btnSearchKey"]))
+else */if (isset($_GET["btnSearchKey"]))
 {
     $t1 = new Ad(1,$addDesc);
     $isFound =$t1->search_keyword($connectionId);
     echo "The Ad with the keywords: ".$addDesc. " is found  <br />";
-    echo Ad::header();
+   
     foreach ($isFound as $element)
     {
+    echo Ad::header();
+
         if($element->getAdIds($connectionId)!=NULL)
         {
-            
-            /////////// display multiple ///////////
             echo $element;
         }
-    }
     echo Ad::footer();
+    echo "<br /><br />";
+        }
 }    
 
 
@@ -69,7 +70,7 @@ else if (isset($_GET["btnSearchKey"]))
     echo Ad::footer();}*/
 
 /////////////////////////PRICE/////////////////////////////////////////
-{
+/*{
     if ($min_price!=""&&$max_price!="")
     {  $t3 = new Ad("","","","","","","",$min_price);
     $t4 = new Ad("","","","","","","",$max_price);
@@ -123,7 +124,7 @@ else if (isset($_GET["btnSearchKey"]))
     echo Ad::footer();
     }
     else {    }
-}
+}*/
 
 
 ?>
