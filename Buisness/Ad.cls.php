@@ -260,8 +260,52 @@ public function getPk_ad_id()
         }
         return $temp;
     }
-   
+    ////////////////////////////search by keyword//////////////////////////////////////
     
+    function search_keyword($connectionId)  // copied to ad
+    {
+        $keywords = $this->ad_description;
+        echo $keywords.",Test";
+        //$keywords = 'car, toy';
+        $idx = 0;  ///
+        $result = array();
+        $keyword_tokens = explode(',', $keywords);
+        $sql = '';
+        if (count($keyword_tokens) ==1)
+        foreach($keyword_tokens as $keyword) {
+            $sql.= " ad_description LIKE'%".(trim($keyword))."%' ";
+        }
+        else if (count($keyword_tokens) >=2){
+            foreach($keyword_tokens as $keyword) {
+                $sql.= " ad_description LIKE'%".(trim($keyword))."%' OR";
+                
+            }
+            $sql=  substr_replace($sql, "", -2); 
+        }
+        else if (count($keyword_tokens) >=2){
+            foreach($keyword_tokens as $keyword) {
+                $sql.= " ad_description LIKE'%".(trim($keyword))."%' OR";
+                
+            }
+            $sql=  substr_replace($sql, "", -2);
+        }
+        echo $sql."\n";
+        $sql = "SELECT * FROM ad WHERE $sql";
+        foreach ($connectionId->query($sql) as $row) {///
+            $temp = new Ad();
+            $temp->ad_description = $row["ad_description"];
+            $temp->ad_exp_date = $row["ad_exp_date"];
+            $temp->ad_reg_date = $row["ad_reg_date"];
+            $temp->fk_mem_id = $row["fk_mem_id"];
+            $temp->fk_pay_id = $row["fk_pay_id"];
+            $temp->fk_subCat_id = $row["fk_subCat_id"];
+            $temp->pk_ad_id = $row["pk_ad_id"];
+            $temp->ad_price = $row["ad_price"];
+            $temp->ad_title = $row["ad_title"];
+            $arrKey[$idx++] = $temp;
+        }
+        return $arrKey;
+    }
     function min_Price($connectionId){
         $idx=0;
         $ad_price = $this->ad_price;
@@ -336,24 +380,6 @@ public function getPk_ad_id()
         return $arrSCId;
     }
     
-    ////////////////////////////search by keyword//////////////////////////////////////
-    function search_keyword($connectionId)
-    {
-        //$keywords = 'car';
-        $keywords = 'car, toy';
-        $idx = 0;  ///
-        $result = array();
-        $keyword_tokens = explode(',', $keywords);
-        $sql = '';
-        foreach($keyword_tokens as $keyword) {
-            $keyword = mysqli_real_escape_string(trim($keyword));
-            if (!empty($sql)) $sql .= " UNION ";
-            $sql .= "SELECT * FROM ad WHERE ad_description LIKE'%$keyword%'";
-            foreach ($connectionId->query($sql) as $oneRec) {///
-                $arrKey[$idx++] = $oneRec["ad_description"];///
-            }///
-            return $arrKey;///
-        }
-    }
+  
 }
 ?>
