@@ -1,5 +1,7 @@
 <?php
 session_start();
+require_once 'Buisness/Images.cls.php';
+
 //session_start() - Démarre une nouvelle session ou reprend une session existante
 echo $_SESSION["language"];
 if (isset($_SESSION["id"])){
@@ -12,9 +14,42 @@ else {
 if(isset($_GET["subCategory"])){
     $subCat = $_GET["subCategory"];
 }
+
+if(isset($_POST["post"])){
+$ad = new Ad();
+$ad->setAd_description($_POST["description"]);
+$ad->setAd_exp_date();
+$ad->setAd_price($_POST["price"]);
+$ad->setAd_reg_date(date("Y/m/d"));
+$ad->setAd_tit($_POST["title"]);
+$ad->setFk_mem_id($_SESSION["id"]);
+$ad->setFk_pay_id($_POST["pay"]);
+$ad->setFk_subCat_id($subCat);
+$ad->setLanguage($_SESSION["language"]);
+$ad->create($connectionId);
+}
+
+if(isset($_FILES["images"])){
+    //echo implode(',', $_FILES["images"]);
+    //Créer un dossier 'fichiers/1/'
+    $path = 'Images/'.$_SESSION["id"].'/';
+    mkdir($path , 0777, true);
+    //Créer un identifiant difficile à deviner
+    $nom = md5(uniqid(rand(), true));
+    $image = new Images();
+    $image->setImagePath($path.$nom.$_FILES["images"]["type"]);
+    $image->setFk_ad_id($fk_ad_id);
+    $image->create($connectionId);
+    
+    move_uploaded_file($_FILES["images"]['tmp_name'], $nom.$_FILES["images"]["type"]);
+}
 ?>
 
-<link rel="stylesheet" type="text/css" href="css/PostAd.css">
+<form method="post" enctype="multipart/form-data">
+
+<link rel="stylesheet" type="text/css" href="css/PostAd.css"/>
+
+
 
 <table>
 <tr>
@@ -127,3 +162,5 @@ if(isset($_GET["subCategory"])){
 	<td><input type="file" name="images"><td>
 </tr>
 </table>
+<input type="submit" name="post" value="Post Ad"/>
+</form>
