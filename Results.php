@@ -34,6 +34,49 @@ else if (isset($_GET["btnGoSubcatId"]))
 }
 else */if (isset($_GET["btnSearchKey"]))
 {
+    
+    $ad = new Ad(1,$addDesc);
+  //  $isFound = $ad->getPayedAds($connectionId);
+      $isFound =$ad->search_keyword($connectionId);
+    echo "The result of search by keywords: ".$addDesc. " <br />";
+    echo Ad::header();
+    foreach ($isFound as $element)
+    {
+     
+            
+        if($element->getAdIds($connectionId)!=NULL)
+        {
+            echo "<tr><td rowspan = '2'><div class='pAds'>";
+            echo "<img src='".$element->getImages().
+            "' alt='".$element->getImages()." not found' />";
+            echo "</div></td><td><a href='Ad.php?id=".$element->getPk_ad_id()."'>".$element->getAd_description()."</a></td>";
+            echo "<td>".$element->getAd_price()."</td><td>".$element->getAd_reg_date()."</td><td>".$element->getAd_exp_date()."</td></tr>";
+                echo "<tr><td>".$element->getAd_description() ."</td><td> </td><td> </td><td> </td> </tr>";
+        }
+        /*  echo "<tr><td rowspan = '2'>$this->images</td><td>$this->ad_title</td><td>$this->ad_price</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td></tr>
+           <tr><td>$this->ad_description </td><td> </td><td> </td><td> </td> </tr>";
+            return $res;*/
+    echo "<br /><br />";
+        }
+        echo Ad::footer();
+}    
+
+//Mikey code
+/*$ad = new Ad();
+ $ads = $ad->getPayedAds($connectionId);
+ //echo $ad->header();
+ foreach ($ads as $element){
+ //echo $element;
+ if($element->getLanguage() == $interfaceLanguage){
+ echo "<div class='pAds'>";
+ echo "<img src='".$element->getImages()."' alt='".$element->getImages()." not found' />";
+ echo "<a href='Ad.php?id=".$element->getPk_ad_id()."'>".$element->getAd_description()."</a>";
+ echo "</div>";
+ }
+ 
+ My code initial
+ /*if (isset($_GET["btnSearchKey"]))
+{
     $t1 = new Ad(1,$addDesc);
     $isFound =$t1->search_keyword($connectionId);
     echo "The Ad with the keywords: ".$addDesc. " is found  <br />";
@@ -49,7 +92,8 @@ else */if (isset($_GET["btnSearchKey"]))
     echo Ad::footer();
     echo "<br /><br />";
         }
-}    
+}    */
+ 
 
 
 /////////////////////////  Subcategory - cancelled //////////////////////

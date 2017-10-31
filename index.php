@@ -65,7 +65,7 @@ if(isset($_GET["interfaceLanguage"])){
 <br/>
 <?php //////////////////////////////////Search part///////////////////////////////////test ?>
 <div id="search">
-Search
+<br />
 <form action="Results.php" method="get">
 <?php 
 /*<div > min price:
@@ -104,10 +104,11 @@ Search
     		<td><input type="submit" name="btnGoSubcatId" value="Go"/></td>
     		</tr>
     		*/  ?>
+    		<table class="table1">
     		 <tr>
-    		  <td>Search by Keyword:</td>
-    		 <td>
-    		 <input type="text" name = "txtKeywordSearch" />
+    		  <td class="td1">Find what you are looking for</td>
+    		 <td class="td1">
+    		 <input type="text" class = "txt1" name = "txtKeywordSearch" placeholder="Search for anything..." autocomplete="off" />
                 <?php 
                 
                 /* 
@@ -121,8 +122,8 @@ Search
                     <input type="submit" name="btnGoSubcatDesc" value="Go"/>
                     */
                  ?>
-    		</td>
-    		<td><input type="submit" name="btnSearchKey" value="Go"/></td>
+    		</td >
+    		<td class="td1"><input type="submit" class = "btn1" name="btnSearchKey" value="Go" /></td>
 		</tr>		
 	</table>
 </form>

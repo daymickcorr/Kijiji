@@ -135,19 +135,7 @@ public function getPk_ad_id()
     {
         $this->fk_mem_id = $fk_mem_id;
     }
-    static function header(){
-        $str= "<table border='1'><tr>";
-        $str="$str<th>pk_ad_id </th><th>ad_description </th><th>ad_reg_date </th><th>Expiration date </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
-        return $str;
-    }
-    static function footer(){
-        return "</table>";
-    }
-   
-    function __toString(){
-        $res="<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
-    return $res;
-    }
+ 
 
     function create($connectionId){
         $pk_ad_id = $this->pk_ad_id;
@@ -261,32 +249,52 @@ public function getPk_ad_id()
         return $temp;
     }
     ////////////////////////////search by keyword//////////////////////////////////////
-    
+    /* function getPayedAds($connectionId){
+        //shows only 1 image
+        $idx=0;
+        foreach ($connectionId->query("select distinct pk_ad_id, ad_description, imagePath, ad_reg_date, category.fk_lan_id from Ad join Images on (images.fk_ad_id = Ad.pk_ad_id) join payement on (ad.fk_pay_id = payement.pk_pay_id) join subcategory on(ad.fk_subCat_id = subcategory.pk_subCat_id) join category on (subcategory.fk_category_id = category.pk_category_id) where pay_amount != 0 order by ad_reg_date DESC;") as $row){
+            $temp = new Ad();
+            
+            $temp->ad_description = $row["ad_description"];
+            //$temp->ad_exp_date = $row["ad_exp_date"];
+            $temp->ad_reg_date = $row["ad_reg_date"];
+            $temp->images = $row["imagePath"];
+           // $temp->fk_mem_id = $row["fk_mem_id"];
+            //$temp->fk_pay_id = $row["fk_pay_id"];
+           // $temp->fk_subCat_id = $row["fk_subCat_id"];
+            $temp->language = $row["fk_lan_id"];
+            $temp->pk_ad_id = $row["pk_ad_id"];
+            $arr[$idx++] = $temp;
+        }
+        return $arr;
+    }*/
     function search_keyword($connectionId)  // copied to ad
     {
         $keywords = $this->ad_description;
-       // echo $keywords.",Test";
-        //$keywords = 'car, toy';
         $idx = 0;  ///
         $result = array();
-        $keyword_tokens = explode(' ', $keywords);
-        //$keyword_tokens = explode(',', $keywords);
+        $keyword_tokens = explode(' ', $keywords);       //$keyword_tokens = explode(',', $keywords);
         $sql = '';
         if (count($keyword_tokens) ==1)
         foreach($keyword_tokens as $keyword) {
-            $sql.= " ad_description LIKE'%".(trim($keyword))."%' ";
+            $sql.= " pay_amount != 0 and ad_description LIKE'%".(trim($keyword))."%' ";
         }
         else if (count($keyword_tokens) >=2){
             foreach($keyword_tokens as $keyword) {
-                $sql.= " ad_description LIKE'%".(trim($keyword))."%' OR";
-                
+                $sql.= " pay_amount != 0 and ad_description LIKE'%".(trim($keyword))."%' OR";
             }
             $sql=  substr_replace($sql, "", -2); 
         }
         else 
         { echo "Nothing is found, please try again";}
-        $sql = "SELECT * FROM ad WHERE $sql";
-        foreach ($connectionId->query($sql) as $row) {///
+        $sql = "SELECT distinct pk_ad_id, ad_description, ad_exp_date, ad_reg_date, fk_mem_id, fk_pay_id, 
+        fk_subCat_id, imagePath, ad_price, ad_title, category.fk_lan_id 
+        from Ad join Images on (images.fk_ad_id = Ad.pk_ad_id) 
+        join payement on (ad.fk_pay_id = payement.pk_pay_id) join subcategory on(ad.fk_subCat_id = 
+        subcategory.pk_subCat_id) join category on 
+        (subcategory.fk_category_id = category.pk_category_id) 
+        WHERE $sql";
+        foreach ($connectionId->query($sql) as $row) {
             $temp = new Ad();
             $temp->ad_description = $row["ad_description"];
             $temp->ad_exp_date = $row["ad_exp_date"];
@@ -297,6 +305,8 @@ public function getPk_ad_id()
             $temp->pk_ad_id = $row["pk_ad_id"];
             $temp->ad_price = $row["ad_price"];
             $temp->ad_title = $row["ad_title"];
+            $temp->images = $row["imagePath"];
+            $temp->language = $row["fk_lan_id"];
             $arrKey[$idx++] = $temp;
         }
         return $arrKey;
@@ -337,6 +347,7 @@ public function getPk_ad_id()
         }
         return $arr;
     }
+    //////////////////////////////////////////////////////////////////////////////////
     function getPayedAds($connectionId){
         //shows only 1 image
         $idx=0;
@@ -374,7 +385,30 @@ public function getPk_ad_id()
         }
         return $arrSCId;
     }
-    
+    // Old display
+    /*static function header(){
+        $str= "<table border='0'><tr border='1'>";
+        $str="$str<th>pk_ad_id </th><th>ad_description </th><th>ad_reg_date </th><th>Expiration date </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
+        return $str;}
+
+    function __toString(){
+        $res="<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
+        return $res;
+    }*/
+    //     $str="$str<th>Photo </th><th>Title </th><th>Price </th><th>Year and Type </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
+    static function header(){
+        $str= "<table border='1'><tr border='1'>";
+        $str="$str<th>Photo </th><th>Title </th><th>Price </th><th>Expiration date </th><th>Registration date </th></tr>";
+        return $str;
+    }
+    static function footer(){
+        return "</table>";
+    }
+    function __toString(){
+        $res="<tr><td rowspan = '2'>$this->images</td><td>$this->ad_title</td><td>$this->ad_price</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td></tr>
+           <tr><td>$this->ad_description </td><td> </td><td> </td><td> </td> </tr>";
+        return $res;
+    }
   
 }
 ?>
