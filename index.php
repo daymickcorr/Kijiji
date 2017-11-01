@@ -68,60 +68,12 @@ if(isset($_GET["interfaceLanguage"])){
 <br />
 <form action="Results.php" method="get">
 <?php 
-/*<div > min price:
-<input type="text" name = "min_price_search" >  </input> max price:
-<input type="text" name = "max_price_search" >  </input></div>
-
-	<table>
-	<tr><td colspan="2">Choose search option</td></tr>
-        <tr>
-            <td>Search by Add ID:</td>
-            <td>
-                <?php 
-                    $AdId = new Ad();
-                    echo "<select name = 'cboSearchAdId'>";
-                    foreach ($AdId->getAdIds($connectionId) as $element) {
-                        echo "<option value= '" . $element . "'>$element</option>";
-                    }
-                    echo "</select>";
-                ?>
-    		</td>
-    		<td><input type="submit" name="btnGoAddId" value="Go"/></td>
-    		 </tr>
-    		 <tr>
-    		 <td>Search by Subcat ID:</td>
-    		 
-            <td>
-                <?php 
-                    $scId = new Ad();
-                    echo "<select name = 'cboSearchSubcatId'>";
-                    foreach ($scId->getSubcatIds($connectionId) as $element) {
-                        echo "<option value= '" . $element . "'>$element</option>";
-                    }
-                    echo "</select>";
-                ?>
-    		</td>
-    		<td><input type="submit" name="btnGoSubcatId" value="Go"/></td>
-    		</tr>
-    		*/  ?>
+ ?>
     		<table class="table1">
     		 <tr>
     		  <td class="td1">Find what you are looking for</td>
     		 <td class="td1">
     		 <input type="text" class = "txt1" name = "txtKeywordSearch" placeholder="Search for anything..." autocomplete="off" />
-                <?php 
-                
-                /* 
-                    //Search by Subcategory(code): 
-                    $sc = new Subcategory();
-                    echo "<select name = 'cboSearchSubcatDesc'>";
-                    foreach ($sc->getSubcatDesc($connectionId) as $element) {
-                        echo "<option value= '" . $element . "'>$element</option>";
-                    }
-                    echo "</select>";
-                    <input type="submit" name="btnGoSubcatDesc" value="Go"/>
-                    */
-                 ?>
     		</td >
     		<td class="td1"><input type="submit" class = "btn1" name="btnSearchKey" value="Go" /></td>
 		</tr>		
