@@ -1,3 +1,8 @@
+<head>
+<link rel="stylesheet" type="text/css" href="css/Ad.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
 <?php
 require_once 'Buisness/Subcategory.cls.php';
 class Ad
@@ -82,7 +87,15 @@ function __construct($pk_ad_id=null,$ad_description=null,$ad_reg_date=null,
 public function getPk_ad_id()
     {
         return $this->pk_ad_id;
-    }
+} //ad_title
+public function getAd_title()
+{
+    return $this->ad_title;
+}
+public function setAd_title($ad_title)
+{
+    $this->ad_title = $ad_title;
+}
     public function getAd_description()
     {
         return $this->ad_description;
@@ -249,25 +262,7 @@ public function getPk_ad_id()
         return $temp;
     }
     ////////////////////////////search by keyword//////////////////////////////////////
-    /* function getPayedAds($connectionId){
-        //shows only 1 image
-        $idx=0;
-        foreach ($connectionId->query("select distinct pk_ad_id, ad_description, imagePath, ad_reg_date, category.fk_lan_id from Ad join Images on (images.fk_ad_id = Ad.pk_ad_id) join payement on (ad.fk_pay_id = payement.pk_pay_id) join subcategory on(ad.fk_subCat_id = subcategory.pk_subCat_id) join category on (subcategory.fk_category_id = category.pk_category_id) where pay_amount != 0 order by ad_reg_date DESC;") as $row){
-            $temp = new Ad();
-            
-            $temp->ad_description = $row["ad_description"];
-            //$temp->ad_exp_date = $row["ad_exp_date"];
-            $temp->ad_reg_date = $row["ad_reg_date"];
-            $temp->images = $row["imagePath"];
-           // $temp->fk_mem_id = $row["fk_mem_id"];
-            //$temp->fk_pay_id = $row["fk_pay_id"];
-           // $temp->fk_subCat_id = $row["fk_subCat_id"];
-            $temp->language = $row["fk_lan_id"];
-            $temp->pk_ad_id = $row["pk_ad_id"];
-            $arr[$idx++] = $temp;
-        }
-        return $arr;
-    }*/
+
     function search_keyword($connectionId)  // copied to ad
     {
         $keywords = $this->ad_description;
@@ -385,30 +380,47 @@ public function getPk_ad_id()
         }
         return $arrSCId;
     }
-    // Old display
-    /*static function header(){
-        $str= "<table border='0'><tr border='1'>";
-        $str="$str<th>pk_ad_id </th><th>ad_description </th><th>ad_reg_date </th><th>Expiration date </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
-        return $str;}
-
-    function __toString(){
-        $res="<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
-        return $res;
-    }*/
-    //     $str="$str<th>Photo </th><th>Title </th><th>Price </th><th>Year and Type </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
-    static function header(){
-        $str= "<table border='1'><tr border='1'>";
-        $str="$str<th>Photo </th><th>Title </th><th>Price </th><th>Expiration date </th><th>Registration date </th></tr>";
+    // ----------------Display--------------
+      static function header(){
+        $str= "<table class = 'tb_ad1'><tr class = 'tr_ad1'>";
+        $str="$str<th >Photo </th><th>Title </th><th>Price </th><th>Expiration date </th><th>Registration date </th></tr>";
         return $str;
     }
     static function footer(){
         return "</table>";
     }
     function __toString(){
-        $res="<tr><td rowspan = '2'>$this->images</td><td>$this->ad_title</td><td>$this->ad_price</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td></tr>
-           <tr><td>$this->ad_description </td><td> </td><td> </td><td> </td> </tr>";
+        $res="<tr class = 'tr_ad2'><td class = 'td_ad1' rowspan='2'><div class='pAds'>
+<img src=.$this->images.</div></td>
+<td>$this->ad_title</td><td>$this->ad_price</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td></tr>
+           <tr><td> $this->ad_description </td><td colspan = '3'/td> </tr>";
         return $res;
     }
-  
+    // ----------------Old display----------------
+    /*//////////////////////////////////////////////////////////////////////////////////////
+     * $res="<tr  class = 'tr_ad2'><td class = 'td_ad1' rowspan ='2'><div class='pAds'>
+<img src=''.$element->getImages().' alt=''.$element->getImages().' not found' />
+<td>'.$element->getAd_price().''</td><td>'.$element->getAd_reg_date().''</td><td>'.$element->getAd_exp_date().''</td></tr>
+<tr class = 'tr_ad3'><td>'.$element->getAd_title() .'</td><td colspan = '3'> </td> </tr>";
+        return $res;
+     * //////////////////////////////////////////////////////////////////////////////////////
+     * echo "<br /><tr  class = 'tr_ad2'><td class = 'td_ad1' rowspan ='2'><div class='pAds'>";
+            echo "<img src='".$element->getImages().
+            "' alt='".$element->getImages()." not found' />";
+            echo "</div></td ><td><a href='Ad.php?id=".$element->getPk_ad_id()."'>".$element->getAd_description()."</a></td>";
+            echo "<td>".$element->getAd_price()."</td><td>".$element->getAd_reg_date()."</td><td>".$element->getAd_exp_date()."</td></tr>";
+            echo "<tr class = 'tr_ad3'><td>".$element->getAd_title() ."</td><td colspan = '3'> </td> </tr>";
+            echo "<br />";
+     * static function header(){
+     $str= "<table border='0'><tr border='1'>";
+     $str="$str<th>pk_ad_id </th><th>ad_description </th><th>ad_reg_date </th><th>Expiration date </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
+     return $str;}
+     
+     function __toString(){
+     $res="<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
+     return $res;
+     }*/
+    //     $str="$str<th>Photo </th><th>Title </th><th>Price </th><th>Year and Type </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
+    
 }
 ?>
