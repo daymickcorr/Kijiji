@@ -1,0 +1,23 @@
+.tr_ad1{
+	background-color: blue;
+}
+.td_ad1{
+	background-color: #ff8000;
+	rowspan='2';
+}
+.tr_ad2{
+    border-top: 1pt solid black;  
+    border-right: 1pt solid black;  
+    border-left: 1pt solid black;  
+}
+.tr_ad3{
+    border-bottom: 1pt solid black; 
+    border-right: 1pt solid black;  
+    border-left: 1pt solid black;  
+}
+.tb_ad1{
+	width:70%;
+border-collapse: collapse;
+text-align: center;
+}
+
