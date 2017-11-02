@@ -88,6 +88,11 @@ if(isset($_FILES["images"])){
     $nom = md5(uniqid(rand(), true));
     
     $extension = pathinfo($_FILES["images"]['name'],PATHINFO_EXTENSION);
+    //echo $path.$nom.".jpg";
+    //echo $extension;
+    //echo "File uploaded ".$_FILES["images"]['tmp_name'];
+    move_uploaded_file($_FILES["images"]['tmp_name'], $path.$nom.'.'.$extension);
+    
     $image = new Images();
     $image->setImagePath($path.$nom.'.'.$extension);
     
@@ -95,11 +100,6 @@ if(isset($_FILES["images"])){
     
     $image->create($connectionId);
     
-    //echo $path.$nom.".jpg";
-    
-    //echo $extension;
-    //echo "File uploaded ".$_FILES["images"]['tmp_name'];
-    move_uploaded_file($_FILES["images"]['tmp_name'], $path.$nom.'.'.$extension);
 }
 ?>
 
