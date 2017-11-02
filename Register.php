@@ -19,11 +19,7 @@ require_once 'Buisness/Adress.cls.php';
     if(!$result){
        echo $connectionId->errorInfo()[2];
     }
-
     
-
-
-
     $member = new Member();
     //$member->setPk_mem_id($_POST["id"]);
     $member->setMem_phone($_POST["phone"]);

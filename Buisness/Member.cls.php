@@ -94,7 +94,7 @@ public function getPk_mem_id()
         $mem_password = $this->mem_password;
         $fk_memType_id = $this->fk_memType_id;
         $fk_add_zip = $this->fk_add_zip;
-        $sqlStmt = "INSERT INTO member (`mem_name`, `mem_phone`, `mem_email`, `mem_password`, `fk_memType_id`, `fk_add_zip`)
+        $sqlStmt = "INSERT INTO member (200,`mem_name`, `mem_phone`, `mem_email`, `mem_password`, `fk_memType_id`, `fk_add_zip`)
        VALUES ('$mem_name','$mem_phone','$mem_email','$mem_password','$fk_memType_id','$fk_add_zip')";
         $result = $connectionId->exec($sqlStmt);
         return $result;
