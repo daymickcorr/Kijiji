@@ -29,7 +29,7 @@ $id = $_GET["id"];
     $ad->setPk_ad_id($id);
     $ad = $ad->find($connectionId);
     
-    echo $ad->header();
+    echo $ad->header1();
     echo $ad;
-    echo $ad->footer();
+    echo $ad->footer1();
 ?>

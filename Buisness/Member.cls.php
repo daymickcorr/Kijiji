@@ -170,6 +170,14 @@ public function getPk_mem_id()
         }
         return $member;
     }
+    function getPk_mem_id1($connectionId) {
+        $idx = 0;
+        $sqlStmt = "SELECT DISTINCT pk_mem_id FROM member";
+        foreach ($connectionId->query($sqlStmt) as $oneRec) {
+            $arrMemId[$idx++] = $oneRec["pk_mem_id"];
+        }
+        return $arrMemId;
+    }
     
 }
 ?>

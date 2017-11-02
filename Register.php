@@ -7,7 +7,6 @@ require_once 'Buisness/Adress.cls.php';
 
 <?php 
 
-
     if(isset($_POST["zip"])){
     //member needs adress
 
