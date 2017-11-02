@@ -161,7 +161,8 @@ public function setAd_title($ad_title)
         $ad_price = $this->ad_price;
         $ad_title = $this->ad_title;
         $sqlStmt = "INSERT INTO ad VALUES ('$pk_ad_id','$ad_description','$ad_reg_date','$ad_exp_date','$fk_pay_id','$fk_subCat_id','$fk_mem_id','$ad_price','$ad_title')";
-        $result = $connectionId->exec($sqlStmt);
+        $connectionId->exec($sqlStmt);
+        $result = $connectionId->query(" SELECT LAST_INSERT_ID()");
         return $result;
     }
     function update($connectionId){

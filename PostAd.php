@@ -10,7 +10,21 @@ if(!isset($selectedPayement)){
     $selectedPayement = new Payement();
 }
 */
-/*
+
+
+ echo $_SESSION["language"];
+ if (isset($_SESSION["id"])){
+ echo $_SESSION["id"];
+ }
+ else {
+ echo "Please login first";
+ }
+ 
+ if(isset($_GET["subCategory"])){
+ $subCat = $_GET["subCategory"];
+ }
+
+
 if(isset($_POST["pay"])){
     $payement = new Payement();
     $payement->setPk_pay_id($_POST["pay"]);
@@ -19,31 +33,20 @@ if(isset($_POST["pay"])){
     $ad = new Ad();
     $ad->setAd_description($_POST["description"]);
     
-    $ad->setAd_price($_POST["price"]);
+    //$ad->setAd_price($_POST["price"]);
     $ad->setAd_reg_date(date("Y/m/d"));
-    $ad->setAd_exp_date(date("Y/m/d") + $payement->getPay_duration());
+    //$ad->setAd_exp_date(date("Y/m/d") + $payement->getPay_duration());
     $ad->setAd_tit($_POST["title"]);
     $ad->setFk_mem_id($_SESSION["id"]);
     $ad->setFk_pay_id($payement->getPk_pay_id());
     $ad->setFk_subCat_id($subCat);
     $ad->setLanguage($_SESSION["language"]);
-    $ad->create($connectionId);
-}
-*/
-//session_start() - Démarre une nouvelle session ou reprend une session existante
-/*
-echo $_SESSION["language"];
-if (isset($_SESSION["id"])){
-    echo $_SESSION["id"];
-}
-else {
-    echo "Please login first";
+    $newId = $ad->create($connectionId);
+    echo $newId;
 }
 
-if(isset($_GET["subCategory"])){
-    $subCat = $_GET["subCategory"];
-}
-*/
+//session_start() - Démarre une nouvelle session ou reprend une session existante
+
 /*
 if(isset($_POST["post"])){
     echo Payement::header();
@@ -66,7 +69,7 @@ $ad->create($connectionId);
 }
 */
 
-if(isset($_FILES["images"])){
+if(isset($_FILES["images"]) && isset($newId)){
     //echo implode(',', $_FILES["images"]);
     //Créer un dossier 'fichiers/1/'
     if (!is_uploaded_file($_FILES["images"]['tmp_name'])){echo "Image Upload Failed error // " . $_FILES["images"]['error'];}
@@ -74,6 +77,7 @@ if(isset($_FILES["images"])){
     if(isset($_SESSION["id"])){
         $sessionId = $_SESSION["id"];
     }
+    //if issue it falls into id 0 which does not exist 
     else{$sessionId = 0;}
     
     $path = 'Images/'.$sessionId.'/';
@@ -96,7 +100,7 @@ if(isset($_FILES["images"])){
     $image = new Images();
     $image->setImagePath($path.$nom.'.'.$extension);
     
-    $image->setFk_ad_id(3);
+    $image->setFk_ad_id($newId);
     
     $image->create($connectionId);
     
