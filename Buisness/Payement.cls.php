@@ -96,5 +96,17 @@ public function getPk_pay_id()
         }
         return $temp;
     }
+    function getAll($connectionId){
+        $idx = 0;
+        foreach ($connectionId->query("select * from payement") as $row){
+            $payement = new Payement();
+            $payement->pk_pay_id = $row["pk_pay_id"];
+            $payement->pay_pictures_amount = $row["pay_pictures_amount"];
+            $payement->pay_duration = $row["pay_duration"];
+            $payement->pay_amount = $row["pay_amount"];
+            $arr[$idx++] = $payement;
+        }
+        return $arr;
+    }
 }
 ?>

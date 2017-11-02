@@ -1,6 +1,13 @@
 <?php
 session_start();
+require_once 'Buisness/dbconfig.php';
 require_once 'Buisness/Images.cls.php';
+require_once 'Buisness/Ad.cls.php';
+require_once 'Buisness/Payement.cls.php';
+
+if(!isset($selectedPayement)){
+    $selectedPayement = new Payement();
+}
 
 //session_start() - Démarre une nouvelle session ou reprend une session existante
 echo $_SESSION["language"];
@@ -16,17 +23,23 @@ if(isset($_GET["subCategory"])){
 }
 
 if(isset($_POST["post"])){
+    echo Payement::header();
+    echo $selectedPayement;
+    echo Payement::footer();
+    /*
 $ad = new Ad();
 $ad->setAd_description($_POST["description"]);
-$ad->setAd_exp_date();
+
 $ad->setAd_price($_POST["price"]);
 $ad->setAd_reg_date(date("Y/m/d"));
+$ad->setAd_exp_date();
 $ad->setAd_tit($_POST["title"]);
 $ad->setFk_mem_id($_SESSION["id"]);
 $ad->setFk_pay_id($_POST["pay"]);
 $ad->setFk_subCat_id($subCat);
 $ad->setLanguage($_SESSION["language"]);
 $ad->create($connectionId);
+*/
 }
 
 if(isset($_FILES["images"])){
@@ -71,91 +84,34 @@ if(isset($_FILES["images"])){
 <tr>
 	<td>Ad Type</td>
 	<td >
+	<?php 
+		  $payement = new Payement();
+		  $payements = $payement->getAll($connectionId);
+		  foreach($payements as $element){
+		?>
 		<div class="payement">
 			<table>
 				<th>
 					<tr>
-						<td>Free</td>
+						<td></td>
 					</tr>
 					<tr>
-						<td>Duration <br/><hr/><br/> 10 Days</td>
+						<td>Package(<?php echo $element->getPk_pay_id()?>)<br/><hr/><br/> <?php echo $element->getPay_duration()?> Days</td>
 					</tr>
 					<tr>
-						<td>0$</td>
+						<td><?php echo $element->getPay_amount()?>$</td>
 					</tr>
 					<tr>
-						<td>0 Images</td>
+						<td><?php echo $element->getPay_pictures_amount()?> Images</td>
 					</tr>
 					<tr>
-						<td><input type="button" onclick="" value="Select"></td>
+						<td><input type="button" name="pay" value="<?php echo $element->getPk_pay_id()?>"></td>
 					</tr>
 				</th>
 			</table>
 		</div>
-		<div class="payement">
-			<table>
-				<th>
-					<tr>
-						<td>Standard</td>
-					</tr>
-					<tr>
-						<td>Duration <br/><hr/><br/> 90 Days</td>
-					</tr>
-					<tr>
-						<td>5$</td>
-					</tr>
-					<tr>
-						<td>1 Image</td>
-					</tr>
-					<tr>
-						<td><input type="button" onclick="" value="Select"></td>
-					</tr>
-				</th>
-			</table>
-		</div>
-		<div class="payement">
-		<table>
-				<th>
-					<tr>
-						<td>Paid</td>
-					</tr>
-					<tr>
-						<td>Duration <br/><hr/><br/> 120 Days</td>
-					</tr>
-					<tr>
-						<td>8$</td>
-					</tr>
-					<tr>
-						<td>5 Images</td>
-					</tr>
-					<tr>
-						<td><input type="button" onclick="" value="Select"></td>
-					</tr>
-				</th>
-			</table>
-		</div>
-		<div class="payement">
-		<table>
-				<th>
-					<tr>
-						<td>Premium</td>
-					</tr>
-					<tr>
-						<td>Duration <br/><hr/><br/> 180 Days</td>
-					</tr>
-					<tr>
-						<td>12$</td>
-					</tr>
-					<tr>
-						<td>10 Images</td>
-					</tr>
-					<tr>
-						<td><input type="button" onclick="" value="Select"></td>
-					</tr>
-				</th>
-			</table>
-		</div>
-	<td>
+		<?php }?>
+		</td>
 </tr>
 <tr>
 	<td>Images</td>
