@@ -61,3 +61,12 @@ width:250;
 	text-align:right;
 	font-size:x-large;
 }
+.ad_image {
+	height: 100%;
+	width: 100%;
+//	position: center;
+	float: center;
+//	display: inline-block;
+	margin-left: 2%;
+	background-color: white;
+}

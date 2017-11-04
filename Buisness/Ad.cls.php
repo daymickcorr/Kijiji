@@ -407,6 +407,26 @@ public function setAd_title($ad_title)
         return $res;
     }*/
     function __toString(){
+        $db = mysqli_connect("localhost","root","","mydb");    ///added
+        $var_Id = $this->getPk_ad_id();    ///added
+        $sql = ("Select distinct ImagePath from Images where fk_ad_id = $var_Id");
+        $result = mysqli_query($db, $sql);
+        while ($row = mysqli_fetch_array($result)){
+            $res="<tr class = 'tr_ad4'><th class = 'td_ad3'>Title:</th><th class = 'td_ad4'>$this->ad_title</th>
+<th class = 'td_ad6'>Anonce Number</th><th class = 'td_ad6'>$this->pk_ad_id</th></tr>
+<tr class = 'tr_ad5'><th class = 'td_ad5'>Price:</th ><th class = 'td_ad5' colspan = '3'>$this->ad_price</th></tr>
+<tr class = 'tr_ad5'><th class = 'td_ad5'>Registration Date:</th><th class = 'td_ad5' colspan = '3'>$this->ad_reg_date</th></tr>
+<tr class = 'tr_ad5'><th class = 'td_ad5'>Expiration Date:</th><th class = 'td_ad5' colspan = '3'>$this->ad_exp_date</th></tr>
+<tr class = 'tr_ad5'><th class = 'td_ad5'>Description:</th><th class = 'td_ad5'colspan='3'> $this->ad_description </th> </tr>;
+<tr class = 'tr_ad5'><th class = 'td_ad7' colspan='3'><div class='pAds'>
+<img src ='images/".$row['ImagePath']."' >;
+    
+</div></th></tr>";
+            return $res;
+        } }
+        // ----------------Old display----------------
+        /*//////////////////////////////////////////////////////////////////////////////////////
+    function __toString(){
 $res="<tr class = 'tr_ad4'><th class = 'td_ad3'>Title:</th><th class = 'td_ad4'>$this->ad_title</th>
 <th class = 'td_ad6'>Anonce Number</th><th class = 'td_ad6'>$this->pk_ad_id</th></tr> 
 <tr class = 'tr_ad5'><th class = 'td_ad5'>Price:</th ><th class = 'td_ad5' colspan = '3'>$this->ad_price</th></tr>
@@ -415,32 +435,7 @@ $res="<tr class = 'tr_ad4'><th class = 'td_ad3'>Title:</th><th class = 'td_ad4'>
 <tr class = 'tr_ad5'><th class = 'td_ad5'>Description:</th><th class = 'td_ad5'colspan='3'> $this->ad_description </th> </tr>;
 <tr class = 'tr_ad5'><th class = 'td_ad7' colspan='3'><div class='pAds'><img src=.$this->images.</div></th></tr>";
         return $res;
-    }
-    // ----------------Old display----------------
-    /*//////////////////////////////////////////////////////////////////////////////////////
-     * $res="<tr  class = 'tr_ad2'>/th class = 'td_ad1' rowspan ='2'><div class='pAds'>
-<img src=''.$element->getImages().' alt=''.$element->getImages().' not found' />
-<td>'.$element->getAd_price().''</td><td>'.$element->getAd_reg_date().''</td><td>'.$element->getAd_exp_date().''</td></tr>
-<tr class = 'tr_ad3'><td>'.$element->getAd_title() .'</td><td colspan = '3'> </td> </tr>";
-        return $res;
-     * //////////////////////////////////////////////////////////////////////////////////////
-     * echo "<br /><tr  class = 'tr_ad2'><td class = 'td_ad1' rowspan ='2'><div class='pAds'>";
-            echo "<img src='".$element->getImages().
-            "' alt='".$element->getImages()." not found' />";
-            echo "</div></td ><td><a href='Ad.php?id=".$element->getPk_ad_id()."'>".$element->getAd_description()."</a></td>";
-            echo "<td>".$element->getAd_price()."</td><td>".$element->getAd_reg_date()."</td><td>".$element->getAd_exp_date()."</td></tr>";
-            echo "<tr class = 'tr_ad3'><td>".$element->getAd_title() ."</td><td colspan = '3'> </td> </tr>";
-            echo "<br />";
-     * //////////////////////////////////////////////////////////////////////////////////////
-     * static function header(){
-     $str= "<table border='0'><tr border='1'>";
-     $str="$str<th>pk_ad_id </th><th>ad_description </th><th>ad_reg_date </th><th>Expiration date </th><th>Payment </th><th>fk_subCat_id </th><th>Price </th><th>Title </th></tr>";
-     return $str;}
-     
-     function __toString(){
-     $res="<tr><td>$this->pk_ad_id</td><td>$this->ad_description</td><td>$this->ad_reg_date</td><td>$this->ad_exp_date</td><td>$this->fk_pay_id</td><td>$this->fk_subCat_id</td><td>$this->ad_price</td><td>$this->ad_title</td></tr>";//
-     return $res;
-     }*/
+    }*/
      
 }
 ?>

@@ -2,7 +2,6 @@
 require_once 'Buisness/Ad.cls.php';
 require_once 'Buisness/dbconfig.php';
 require_once 'Buisness/Images.cls.php';
-$id = 17;
 if(isset($_GET["id"])){
 $id = $_GET["id"];
 }
@@ -15,13 +14,14 @@ $id = $_GET["id"];
     $image = new Images();
     $images = $image->getAll($connectionId);
     
-    foreach ($images as $element){
+   /* foreach ($images as $element){
         if($element->getFk_ad_id() == $id){
             echo "<div class='image'>";
             echo "<img src='".$element->getImagePath()."' alt='".$element->getImagePath()." not found'/>";
+          
             echo "</div>";
         }
-    }
+    }*/
 ?>
 
 <?php 
