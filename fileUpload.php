@@ -9,8 +9,6 @@ require_once 'Buisness/Ad.cls.php';
 require_once 'Buisness/Subcategory.cls.php';
 require_once 'Buisness/Images.cls.php';
 
-// https://www.youtube.com/watch?v=Ipa9xAs_nTg
-
 $msq = "";
 // if pressed upload
 if (isset($_POST['upload'])) {
