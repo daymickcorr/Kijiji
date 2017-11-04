@@ -64,9 +64,8 @@ width:250;
 .ad_image {
 	height: 100%;
 	width: 100%;
-//	position: center;
 	float: center;
-//	display: inline-block;
+	display: inline-block;
 	margin-left: 2%;
 	background-color: white;
 }

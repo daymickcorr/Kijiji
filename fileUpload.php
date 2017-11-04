@@ -1,4 +1,13 @@
-<?php
+<head>
+<link rel="stylesheet" type="text/css" href="css/Ad.css">
+<link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<?php // -----------------find////////////////////
+require_once 'Buisness/dbconfig.php';
+require_once 'Buisness/Ad.cls.php';
+require_once 'Buisness/Subcategory.cls.php';
+require_once 'Buisness/Images.cls.php';
 
 // https://www.youtube.com/watch?v=Ipa9xAs_nTg
 
@@ -33,15 +42,17 @@ if (isset($_POST['upload'])) {
 <body>
 <div id = "content">
 <?php 
+if (isset($_POST['display'])) {
 // connect to the database
 $db = mysqli_connect("localhost","root","","mydb");
 $sql = "Select * from Images";
 $result = mysqli_query($db, $sql);
 while ($row = mysqli_fetch_array($result)){
     echo "<div id='img_div'>";
-    echo "<img src ='images/".$row['ImagePath']."' >"; //    echo "img src ='images/".$row['ImagePath']."' >";
+    echo "<img src ='images/".$row['ImagePath']."' >"; 
     echo "<p>".$row['fk_ad_id']."</p>";
     echo "</div>";
+}
 }
 ?>
     <form method = 'post' action = 'fileUpload.php' enctype = 'multipart/form-data'>
@@ -54,6 +65,24 @@ while ($row = mysqli_fetch_array($result)){
     </div>
     <div>
     	<input type = "submit" name = "upload" value = "Upload file">
+    </div>
+    </form>
+</div>
+
+  <form method = 'post' action = '#' enctype = 'multipart/form-data'>
+    <table class='tb_al1'> <tr><td class ='td_ai1' colspan = '2' > Display add images:  </td></tr>
+<tr><td>Image id :  </td><td>
+     <?php 
+         $image = new Images();
+          echo "<select name = 'cboImageId'>";
+          foreach ($image->getPk_image_id($connectionId) as $element) {
+          echo "<option value= '" . $element . "'>$element</option>";
+      }
+        echo "</select>";
+        ?>
+</td></tr></table>
+    <div>
+    	<input type = "submit" name = "display" value = "Display file">
     </div>
     </form>
 </div>

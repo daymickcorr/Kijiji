@@ -417,9 +417,9 @@ public function setAd_title($ad_title)
 <tr class = 'tr_ad5'><th class = 'td_ad5'>Price:</th ><th class = 'td_ad5' colspan = '3'>$this->ad_price</th></tr>
 <tr class = 'tr_ad5'><th class = 'td_ad5'>Registration Date:</th><th class = 'td_ad5' colspan = '3'>$this->ad_reg_date</th></tr>
 <tr class = 'tr_ad5'><th class = 'td_ad5'>Expiration Date:</th><th class = 'td_ad5' colspan = '3'>$this->ad_exp_date</th></tr>
-<tr class = 'tr_ad5'><th class = 'td_ad5'>Description:</th><th class = 'td_ad5'colspan='3'> $this->ad_description </th> </tr>;
-<tr class = 'tr_ad5'><th class = 'td_ad7' colspan='3'><div class='pAds'>
-<img src ='images/".$row['ImagePath']."' >;
+<tr class = 'tr_ad5'><th class = 'td_ad5'>Description:</th><th class = 'td_ad5'colspan='3'> $this->ad_description </th> </tr>
+<tr class = 'tr_ad5'><th class = 'td_ad7' colspan='3'><div class='ad_image'>
+<img src ='images/".$row['ImagePath']."' >
     
 </div></th></tr>";
             return $res;
